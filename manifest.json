@@ -1,11 +1,15 @@
 {
-    "name": "N3 VPN",
+    "name": "NoGS",
     "version": "1.0.0",
     "description": "Ensures you are connected to a VPN before going to particular sites.",
     "manifest_version": 3,
     "author": "Andy Villasmil",
+    "permissions": ["storage", "tabs", "webRequest", "*://*/*"],
+    "background": {
+        "service_worker": "js/background.js"
+    },
     "action":{
         "default_popup": "index.html",
-        "default_title": "N3 VPN"
+        "default_title": "NoGS"
     }
 }
