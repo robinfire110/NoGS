@@ -19,3 +19,7 @@
 ## 1.0
  * Functioning version (but only for the school). 
  * Does not intercept request, meaning request gets sent and then blocked.
+
+# Credits
+* Developer - Andy Villasmil (robinfire110)
+* Base Website Block Code - https://dev.to/penge/learn-the-most-useful-chrome-apis-by-creating-block-site-chrome-extension-2de8
