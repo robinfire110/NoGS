@@ -15,20 +15,37 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
   if (!url || !url.startsWith("http")) {
     return;
   }
-
+  
   const hostname = new URL(url).hostname;
 
-  chrome.webRequest.onResponseStarted.addListener(
-    ({ip}) => console.log(`Network request with ${ip}!`),
-    {urls: ['*://*/*']});
-
-  chrome.storage.local.get(["blocked", "enabled"], function (local) {
+  chrome.storage.local.get(["blocked", "enabled"], async function (local) {
     const { blocked, enabled } = local;
     
+    //If it is in the list
     if (Array.isArray(blocked) && enabled && blocked.find(domain => hostname.includes(domain))) {
-      chrome.tabs.update(tabId, { url: 'chrome-extension://gglceijpcfilfeeobcdogbcfgafpmeoo/blocked.html'})
-      console.log("Blocked");
+      if (await checkIp())
+      {
+        chrome.tabs.update(tabId, { url: 'chrome-extension://gglceijpcfilfeeobcdogbcfgafpmeoo/blocked.html'})
+        console.log("Blocked");
+      }
     }
   });
 });
+
+async function checkIp()
+{
+  //Get IP Address
+  var res = await fetch('https://api.ipify.org?format=json');
+  var data = await res.json();
+  let ip = data.ip;
+
+  //Get organization
+  var res = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,city,isp,org,as,asname,query`);
+  var data = await res.json();
+  let check = data.asname;
+
+  //Check
+  console.log(check);
+  return check == "UNC-GREENSBORO";
+}
   

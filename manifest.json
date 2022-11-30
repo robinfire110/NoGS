@@ -4,7 +4,7 @@
     "description": "Ensures you are connected to a VPN before going to particular sites.",
     "manifest_version": 3,
     "author": "Andy Villasmil",
-    "permissions": ["storage", "tabs", "webRequest", "*://*/*"],
+    "permissions": ["storage", "tabs"],
     "background": {
         "service_worker": "js/background.js"
     },
