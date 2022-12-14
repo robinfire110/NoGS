@@ -10,8 +10,9 @@ chrome.runtime.onInstalled.addListener(function () {
     });
 });
   
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
-  const url = changeInfo.pendingUrl || changeInfo.url;
+//Check before you navigate to the page
+chrome.webNavigation['onBeforeNavigate'].addListener(function(data) {
+  const url = data.url;
   if (!url || !url.startsWith("http")) {
     return;
   }
@@ -22,11 +23,11 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo) {
     const { blocked, enabled } = local;
     
     //If it is in the list
-    if (Array.isArray(blocked) && enabled && blocked.find(domain => hostname.includes(domain))) {
+    if (Array.isArray(blocked) && enabled && (blocked.find(domain => domain.includes(hostname)) || blocked.find(domain => hostname.includes(domain)))) {
       if (await checkIp())
       {
-        chrome.tabs.update(tabId, { url: 'chrome-extension://gglceijpcfilfeeobcdogbcfgafpmeoo/blocked.html'})
-        console.log("Blocked");
+        chrome.tabs.update(data.tabId, { url: 'chrome-extension://gglceijpcfilfeeobcdogbcfgafpmeoo/blocked.html'})
+        console.log("Blocked", data.url);
       }
     }
   });
@@ -45,7 +46,7 @@ async function checkIp()
   let check = data.asname;
 
   //Check
-  console.log(check);
+  //console.log(check);
   return check == "UNC-GREENSBORO";
 }
   
