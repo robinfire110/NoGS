@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NoGS</title>
+    <meta charset="utf-8">
+    <link href="bootstrap.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <h1>NoGS</h1>
+    <div>
+        <textarea id="textarea" rows="10" cols="30" spellcheck="false"></textarea>
+        <label for="ip">IP:</label>
+        <input type="text" id="inputIp" name="inputIp">
+        <button id="useCurrentIp">Use Current IP</button>
+        <br>
+        <label for="inputScope">Scope:</label>
+        <select id="inputScope" name="inputScope">
+            <option value="0">Country</option>
+            <option value="1" selected>Region</option>
+            <option value="2">City</option>
+            <option value="3">Zip</option>
+            <option value="4">Organization</option>
+            <option value="5">IP Address</option>
+        </select>
+        <br>
+    </div>
+    
+
+    <button id="saveButton">Save</button>
+    <strong>Enabled?</strong><input id="checkbox" type="checkbox">
+
+    <script src="../js/options.js"></script>
+    <script src="bootstrap.min.js"></script>
+</body>
+</html>
