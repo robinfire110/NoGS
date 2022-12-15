@@ -47,7 +47,7 @@ async function checkIp(ipData, scope)
   let ip = await data.ip;
 
   //Stop here if it's just an ip check (just to make it a bit more effecient)
-  if (scope = "5") return ip != ipData.query;
+  if (scope == "5") return ip != ipData.query;
 
   //Get organization
   var res = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,countryCode,region,city,zip,org,as,asname,query`);
