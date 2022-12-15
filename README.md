@@ -71,8 +71,8 @@
 * Improved Documentation (in the README)
 
 ## 1.0
- * Functioning version (but only for the school)
- * Does not intercept request, meaning request gets sent and then blocked
+* Functioning version (but only for the school)
+* Does not intercept request, meaning request gets sent and then blocked
 
 # Credits
 * Developer - Andy Villasmil (robinfire110)
