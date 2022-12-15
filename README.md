@@ -2,7 +2,7 @@
  Chrome Extension that ensures you are connected to a VPN before going to blocked sites.
 
 # Why?
- A friend of mine kept forgetting to connect a VPN before going to less than shady websites (I don't ask questions, I just write programs) to ensure the school network doesn't track where he is going. He asked if there was a way to block going to particular sites unless you are using a VPN, I looked around and couldn't find anything so I decided to write this Chrome Extension.
+ A friend of mine kept forgetting to connect a VPN before going to certain websites (I don't ask questions, I just write programs) to ensure the school network doesn't track where he is going. He asked if there was a way to block going to particular sites unless you are using a VPN, I looked around and couldn't find anything so I decided to write this Chrome Extension.
 
 # How?
  It's fairly simple. The user lists out the sites they want to be blocked by clicking on the icon in the extensions menu. On every new request, the extension will check if the site the user is attempting to connect to is on the list. If so, it will check their IP and see if the data from that IP is what it expects. If not, it will simply redirect to another page to remind the user to turn on a VPN.
@@ -15,9 +15,8 @@
 # Documentation
  When you click the "NoGS" icon in the extensions menu, the options menu will appear. Within it, you can adjust how the extension functions.
  
- 
 ## Blocked Sites
- The main text area is where you add the sites you want to be blocked when you are not connected to a VPN. You can simply write out the webiste URL and seperate each website with a new line. For the best results, write the site in it's simplest form (i.e. no need for "www." or "http:\\"). An example of the format is below...
+ The main text area is where you add the sites you want to be blocked when you are not connected to a VPN. You can simply write out the webiste URL and seperate each website with a new line. For the best results, write the site in it's simplest form (i.e. no need for `www.` or `http:\\`). An example of the format is below...
  >amazon.com\
  >twitter.com\
  >facebook.com
@@ -35,7 +34,7 @@
  By default, it will use the IP address you are connected to when you first open the extension. You can press the "Use Current IP" button to insert the current IP address. Alternatively, you can input an IP address manually. 
  
 ### Scope
- The "Scope" option refers to which parameter you want the extension to check against. You have 6 options and they are ordered from least percise to most percise. You can set whichever one best suits your needs and your network setup. The option you may want to choose may change depending on if you are travling on a laptop, or are staying in the same place with a static IP. If you aren't percise enough, you may get blocked even when connected to a VPN. If you are too percise, you may not get blocked when you are not connected to a VPN. It highly depends on your network and VPN setup, experiment to see what works best for you.
+ The "Scope" option refers to which parameter you want the extension to check against. You have 6 options and they are ordered from least percise to most percise. You can set whichever one best suits your needs and your network setup. The option you choose may change depending on if you are travling on a laptop, or are staying in the same place with a static IP. If you aren't percise enough, you may get blocked even when connected to a VPN. If you are too percise, you may not get blocked when you are not connected to a VPN. It highly depends on your network and VPN setup, experiment to see what works best for you. Here is some information about each options.
  
  | Scope  | Info |
  | ------------- |:-------------:|
@@ -46,7 +45,7 @@
  | Organization      |Checks if IP matches Organization. Recommended for shared networks such as school or work, but can be effective in other contexts too.|
  | IP Address      |Checks if IP addresses are the same. Not recommended for most users due to dynamic IP addressing for many network setups. However, can be very effective for advanced users with a static IP address.|
  
- If you would like to check exactly what data the extension is getting, you can do so by going to the API's website. The fields the program checks for are (in order) `countryCode, region, city, zip, asname, query`. The link is below.
+ If you would like to check exactly what data the extension is getting, you can do so by going to the API's website and inputting your IP. The fields the program checks for are (in order) `countryCode, region, city, zip, asname, query`. The link is below.
  
  https://ip-api.com
 
@@ -81,5 +80,5 @@
 * Base Website Block Code - https://dev.to/penge/learn-the-most-useful-chrome-apis-by-creating-block-site-chrome-extension-2de8
 
 # Thanks!
- I hope this extension fits the niche for anyone who needs it. After the 1.2 version, I'm going to consider this extension finished unless some massive bug or such is discovered. If you find any such bug, or want to request a feature be added, feel free to let me know and I'll see what I can do. 
+ I hope this extension fits the niche for anyone who needs it. This is my first chrome extension and served as a fun project to learn the ropes of it while helping a friend. After the 1.2 version, I'm going to consider this extension finished unless some massive bug or such is discovered. If you find any such bug, or want to request a feature be added, feel free to let me know and I'll see what I can do. 
  Thanks!
