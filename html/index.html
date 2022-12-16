@@ -3,34 +3,51 @@
 <head>
     <title>NoGS</title>
     <meta charset="utf-8">
-    <link href="bootstrap.min.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
 </head>
 
 <body>
-    <h1>NoGS</h1>
-    <div>
-        <textarea id="textarea" rows="10" cols="30" spellcheck="false"></textarea>
-        <label for="ip">IP:</label>
-        <input type="text" id="inputIp" name="inputIp">
-        <button id="useCurrentIp">Use Current IP</button>
+    <div class="card text-bg-secondary mb-3">
+        <h5 class="card-header">NoGS VPN Checker</h5>
         <br>
-        <label for="inputScope">Scope:</label>
-        <select id="inputScope" name="inputScope">
-            <option value="0">Country</option>
-            <option value="1" selected>Region</option>
-            <option value="2">City</option>
-            <option value="3">Zip</option>
-            <option value="4">Organization</option>
-            <option value="5">IP Address</option>
-        </select>
+        <div class="container">
+            <div class="form-floating">
+                <textarea id="textarea" style="height: 250px" spellcheck="false" class="form-control" placeholder="Blocked Sites (ex. twitter.com)"></textarea>
+                <label for="textarea">Blocked Sites (ex. twitter.com)</label>
+            </div>    
+        </div>
         <br>
+        <div class="container">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">IP</span>
+                <input type="text" class="form-control" placeholder="Default IP" aria-label="inputIp" aria-describedby="basic-addon1" name="inputIp" id="inputIp">
+                <button class="btn btn-outline-secondary" type="button" id="useCurrentIp">Use Current IP</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Scope:</span>
+                <select id="inputScope" name="inputScope" class="form-select">
+                    <option value="0">Country</option>
+                    <option value="1" selected>Region</option>
+                    <option value="2">City</option>
+                    <option value="3">Zip</option>
+                    <option value="4">Organization</option>
+                    <option value="5">IP Address</option>
+                </select>
+            </div>
+        </div>
+        <div class="container">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkbox">
+                <label class="form-check-label" for="checkbox">Enabled?</label>
+            </div>
+            <button id="saveButton" class="btn btn-primary">Save</button>
+        </div>
     </div>
-    
-
-    <button id="saveButton">Save</button>
-    <strong>Enabled?</strong><input id="checkbox" type="checkbox">
-
     <script src="../js/options.js"></script>
-    <script src="bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </body>
 </html>
