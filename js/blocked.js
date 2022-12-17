@@ -12,8 +12,8 @@ blockedSite.innerHTML = `<a href="${site}" target="_self">${site}</a>`;
 //https://stackoverflow.com/questions/8622892/how-to-redirect-a-page-to-another-page-when-refresh-at-second-attempt
 window.onbeforeunload = function() {
     window.setTimeout(function () { 
-        window.location = site;
-    }, 0); 
+        window.location.replace(site);
+    }, 1); 
     window.onbeforeunload = null; 
 }
 
