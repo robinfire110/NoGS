@@ -16,24 +16,23 @@ chrome.runtime.onInstalled.addListener(function () {
 });
   
 //Check before you navigate to the page
-chrome.webNavigation['onBeforeNavigate'].addListener(async function(data) {
+chrome.tabs.onUpdated.addListener(async function(id, info, data) {
   const url = data.url;
+  
   if (!url || !url.startsWith("http")) {
     return;
   }
-
-  console.log("Not Blocked", data)
-
+  
   const hostname = new URL(url).hostname;
   chrome.storage.local.get(["blocked", "enabled", "ipData", "scope"], async function (local) {
     const { blocked, enabled, ipData, scope } = local;
     
     //If it is in the list
-    if (Array.isArray(blocked) && enabled && data.frameId == 0 && await (blocked.find(domain => domain.includes(hostname)) || blocked.find(domain => hostname.includes(domain)))) {
+    if (Array.isArray(blocked) && enabled && (blocked.find(domain => domain.includes(hostname)) || blocked.find(domain => hostname.includes(domain)))) {
       if (await checkIp(ipData, scope))
       {
-        chrome.tabs.update(data.tabId, { url: 'chrome-extension://gglceijpcfilfeeobcdogbcfgafpmeoo/html/blocked.html'})
-        console.log("Blocked", data);
+        chrome.tabs.update(data.id, { url: `chrome-extension://gglceijpcfilfeeobcdogbcfgafpmeoo/html/blocked.html#${url}`})
+        console.log("Blocked", data.url);
       }
     }
   });
@@ -45,9 +44,6 @@ async function checkIp(ipData, scope)
   var res = await fetch('https://api.ipify.org?format=json');
   var data = await res.json();
   let ip = await data.ip;
-
-  //Stop here if it's just an ip check (just to make it a bit more effecient)
-  if (scope == "5") return ip != ipData.query;
 
   //Get organization
   var res = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,countryCode,region,city,zip,org,as,asname,query`);
@@ -65,6 +61,7 @@ async function checkIp(ipData, scope)
     case "4": result = check.asname != ipData.asname; break; //Organization
     case "5": result = check.query != ipData.query; break; //IP Address
   }
+  //console.log(check, ipData);
   return await result;
 }
   

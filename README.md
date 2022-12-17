@@ -45,7 +45,7 @@
  | Zip      |Checks if IP matches Zip Code. Very percise location.|
  | Organization      |Checks if IP matches Organization. Recommended for shared networks such as school or work, but can be effective in other contexts too.|
  | IP Address      |Checks if IP addresses are the same. Not recommended for most users due to dynamic IP addressing for many network setups. However, can be very effective for advanced users with a static IP address.|
- 
+
  If you would like to check exactly what data the extension is getting, you can do so by going to the API's website. The fields the program checks for are (in order) `countryCode, region, city, zip, asname, query`. The link is below.
  
  https://ip-api.com
@@ -61,7 +61,7 @@
 ## 1.2 (In-Development)
 * Icon
 * Improved UI (with Bootstrap 5)
-
+* Further improved request interception
 
 ## 1.1
 * Better compatibility

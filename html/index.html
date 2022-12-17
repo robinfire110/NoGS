@@ -3,18 +3,18 @@
 <head>
     <title>NoGS</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <meta name="viewport" content="width=device-width">
     <link href="../css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../css/style.css" rel="stylesheet"/>
 </head>
 
 <body>
-    <div class="card text-bg-secondary mb-3">
+    <div class="card bg-light" style="min-height: 33rem">
         <h5 class="card-header">NoGS VPN Checker</h5>
         <br>
         <div class="container">
             <div class="form-floating">
-                <textarea id="textarea" style="height: 250px" spellcheck="false" class="form-control" placeholder="Blocked Sites (ex. twitter.com)"></textarea>
+                <textarea id="textarea" style="height: 250px" spellcheck="false" class="form-control" placeholder="Insert Blocked Sites (ex. twitter.com)"></textarea>
                 <label for="textarea">Blocked Sites (ex. twitter.com)</label>
             </div>    
         </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="container">
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">Scope:</span>
+                <span class="input-group-text" id="basic-addon1">Scope</span>
                 <select id="inputScope" name="inputScope" class="form-select">
                     <option value="0">Country</option>
                     <option value="1" selected>Region</option>
@@ -37,6 +37,7 @@
                     <option value="4">Organization</option>
                     <option value="5">IP Address</option>
                 </select>
+                <button class="btn btn-outline-secondary" type="button" id="scopeInfoButton">?</button>
             </div>
         </div>
         <div class="container">
@@ -44,7 +45,13 @@
                 <input class="form-check-input" type="checkbox" value="" id="checkbox">
                 <label class="form-check-label" for="checkbox">Enabled?</label>
             </div>
-            <button id="saveButton" class="btn btn-primary">Save</button>
+            <div>
+                <button id="saveButton" class="btn btn-primary">Save</button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" fill="green" class="bi bi-check-circle-fill" style="opacity: 0" viewBox="0 0 16 16" id="saveSuccess">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+            
         </div>
     </div>
     <script src="../js/options.js"></script>

@@ -5,7 +5,9 @@ const ipForm = document.getElementById("ipForm");
 const inputIp = document.getElementById("inputIp");
 const useCurrentIp = document.getElementById("useCurrentIp");
 const inputScope = document.getElementById("inputScope");
+const scopeInfoButton = document.getElementById("scopeInfoButton");
 const saveButton = document.getElementById("saveButton");
+const saveSuccess = document.getElementById("saveSuccess");
 let currentIp;
 
 //Use current ip button
@@ -20,10 +22,9 @@ saveButton.addEventListener("click", async () => {
   chrome.storage.local.set({ blocked });
 
   //Get ipInfo
-  console.log(inputIp.value);
   var res = await fetch(`http://ip-api.com/json/${inputIp.value}?fields=status,message,countryCode,region,city,zip,org,as,asname,query`);
   var data = await res.json();
-  const ipData = data;
+  const ipData = await data;
   console.log("ipData: ", ipData);
 
   //Get Selected Scope
@@ -32,6 +33,26 @@ saveButton.addEventListener("click", async () => {
   //Set
   chrome.storage.local.set( {ipData} );
   chrome.storage.local.set( {scope} );
+
+  //Visuals
+  saveSuccess.style.opacity = 1;
+  setTimeout(() => {
+    var fadeInterval = setInterval(() => {
+      saveSuccess.style.opacity -= .01;
+      if (saveSuccess.style.opacity <= 0)
+      {
+        saveSuccess.style.opacity = 0;
+        clearInterval(fadeInterval);
+        
+      }
+      console.log("ran")
+    }, 10)
+  }, 1500)
+});
+
+//Scope information button
+scopeInfoButton.addEventListener("click", () => {
+  window.open('https://github.com/robinfire110/NoGS#scope', '_blank');
 });
 
 
@@ -43,7 +64,7 @@ checkbox.addEventListener("change", (event) => {
 
 //Refill With Data when load
 window.addEventListener("DOMContentLoaded", async () => {
-  chrome.storage.local.get(["blocked", "enabled", "ipData", "scope"], function (local) {
+  chrome.storage.local.get(["blocked", "enabled", "ipData", "scope"], async function (local) {
     const { blocked, enabled, ipData, scope} = local;
 
     //Add to textarea
@@ -54,17 +75,16 @@ window.addEventListener("DOMContentLoaded", async () => {
     //Check enabled
     checkbox.checked = enabled;
 
-    //Set IP
-    console.log("ran");
-    if (ipData == undefined) inputIp.value = currentIp; //If there is nothing saved, get and use current ip
-    else inputIp.value = ipData.query; //Fill the one from the data
-
     //Set Scope
     if (scope != undefined) inputScope.value = scope;
-  });
 
-  //Get Current Ip
-  currentIp = await getCurrentIp();
+    //Get Current Ip
+    currentIp = await getCurrentIp();
+
+    //Set IP
+    if (ipData == undefined) inputIp.value = currentIp; //If there is nothing saved, get and use current ip
+    else inputIp.value = ipData.query; //Fill the one from the data
+  });
 });
 
 //Get Current Ip
