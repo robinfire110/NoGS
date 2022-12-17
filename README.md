@@ -60,13 +60,12 @@
 # Versions
 ## 1.2 (In-Development)
 * Icon
-* Improved UI (with Bootstrap 5)
-* Further improved request interception
+* Improved UI (with Bootstrap 5) on Options and Blocked screens.
+* Improved request interception
 
 ## 1.1
 * Better compatibility
 	* Ability to insert your default IP to select what to check against
-* Intercepts request. Better privacy and reliability
 * Bug fixes
 * Improved Documentation (in the README)
 

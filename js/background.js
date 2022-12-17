@@ -17,7 +17,7 @@ chrome.runtime.onInstalled.addListener(function () {
   
 //Check before you navigate to the page
 chrome.tabs.onUpdated.addListener(async function(id, info, data) {
-  const url = data.url;
+  const url = info.url || data.url;
   
   if (!url || !url.startsWith("http")) {
     return;
