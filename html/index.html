@@ -3,34 +3,74 @@
 <head>
     <title>NoGS</title>
     <meta charset="utf-8">
-    <link href="bootstrap.min.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width">
+    <link href="../css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
 </head>
 
 <body>
-    <h1>NoGS</h1>
-    <div>
-        <textarea id="textarea" rows="10" cols="30" spellcheck="false"></textarea>
-        <label for="ip">IP:</label>
-        <input type="text" id="inputIp" name="inputIp">
-        <button id="useCurrentIp">Use Current IP</button>
+    <div class="card bg-light" style="min-height: 35rem">
+        <h5 class="card-header">NoGS VPN Checker</h5>
         <br>
-        <label for="inputScope">Scope:</label>
-        <select id="inputScope" name="inputScope">
-            <option value="0">Country</option>
-            <option value="1" selected>Region</option>
-            <option value="2">City</option>
-            <option value="3">Zip</option>
-            <option value="4">Organization</option>
-            <option value="5">IP Address</option>
-        </select>
+        <div class="container">
+            <div class="form-floating">
+                <textarea id="textarea" style="height: 250px" spellcheck="false" class="form-control" placeholder="Insert Blocked Sites (ex. twitter.com)"></textarea>
+                <label for="textarea">Blocked Sites (ex. twitter.com)</label>
+            </div>    
+        </div>
         <br>
+        <div class="container">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">IP</span>
+                <input type="text" class="form-control" placeholder="Default IP" aria-label="inputIp" aria-describedby="basic-addon1" name="inputIp" id="inputIp">
+                <button class="btn btn-outline-secondary" type="button" id="useCurrentIp">Use Current IP</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Scope</span>
+                <select id="inputScope" name="inputScope" class="form-select">
+                    <option value="0">Country</option>
+                    <option value="1" selected>Region</option>
+                    <option value="2">City</option>
+                    <option value="3">Zip</option>
+                    <option value="4">Organization</option>
+                    <option value="5">IP Address</option>
+                </select>
+                <button class="btn btn-outline-secondary" type="button" id="scopeInfoButton">?</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">VPN Check Frequency</span>
+                <input type="number" min="2" max="60" class="form-control" placeholder="2-600" aria-label="vpnCheckFrequency" aria-describedby="basic-addon1" name="vpnCheckFrequency" id="vpnCheckFrequency">
+                <span class="input-group-text" id="basic-addon2">seconds</span>
+                <button class="btn btn-outline-secondary" type="button" id="vpnCheckFrequencyButton">?</button>
+            </div>
+            
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <button id="saveButton" class="btn btn-primary">Save</button>
+                </div>
+                <div class="col-6">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="enableButton" autocomplete="off" checked>
+                        <label class="btn btn-outline-success" for="enableButton">Enabled</label>
+                      
+                        <input type="radio" class="btn-check" name="btnradio" id="disableButton" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="disableButton">Disabled</label>
+                    </div>     
+                </div>
+                <div class="col-4">
+                    <h2 id="vpnStatusIndicator"><span class="badge rounded-pill text-bg-danger" title="VPN Status: Off">VPN Status</span></h2>
+                </div>
+            </div>
+        </div>
     </div>
-    
-
-    <button id="saveButton">Save</button>
-    <strong>Enabled?</strong><input id="checkbox" type="checkbox">
-
     <script src="../js/options.js"></script>
-    <script src="bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </body>
 </html>

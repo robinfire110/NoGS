@@ -1,50 +1,92 @@
 //Get Elements
 const textarea = document.getElementById("textarea");
-const checkbox = document.getElementById("checkbox");
+//const checkbox = document.getElementById("checkbox");
 const ipForm = document.getElementById("ipForm");
 const inputIp = document.getElementById("inputIp");
 const useCurrentIp = document.getElementById("useCurrentIp");
 const inputScope = document.getElementById("inputScope");
+const scopeInfoButton = document.getElementById("scopeInfoButton");
+const vpnCheckFrequency = document.getElementById("vpnCheckFrequency");
+const vpnCheckFrequencyButton = document.getElementById("vpnCheckFrequencyButton");
+const enableButton = document.getElementById("enableButton");
+const disableButton = document.getElementById("disableButton");
 const saveButton = document.getElementById("saveButton");
+const vpnStatusIndicator = document.getElementById("vpnStatusIndicator")
+let lastStatus = undefined;
 let currentIp;
+let frequency;
+let vpnStatusInterval;
+let enabledStatus;
 
 //Use current ip button
 useCurrentIp.addEventListener("click", async () => {
   inputIp.value = await currentIp;
 });
 
-//Set block list
+//Save
 saveButton.addEventListener("click", async () => {
+  //Enabled
+  const enabled = enabledStatus;
+  chrome.storage.local.set({ enabled });
+
   //Blocked list
   const blocked = textarea.value.split("\n").map(s => s.trim()).filter(Boolean);
   chrome.storage.local.set({ blocked });
 
   //Get ipInfo
-  console.log(inputIp.value);
   var res = await fetch(`http://ip-api.com/json/${inputIp.value}?fields=status,message,countryCode,region,city,zip,org,as,asname,query`);
   var data = await res.json();
-  const ipData = data;
-  console.log("ipData: ", ipData);
+  const ipData = await data;
+  //console.log("ipData: ", ipData);
 
   //Get Selected Scope
   const scope = inputScope.value;
 
+  //Get frequency
+  const checkFrequency = vpnCheckFrequency.value;
+  chrome.storage.local.set( {checkFrequency} );
+
   //Set
   chrome.storage.local.set( {ipData} );
   chrome.storage.local.set( {scope} );
+
+  //Reload with new settings
+  chrome.runtime.reload()
 });
 
+//Scope information button
+scopeInfoButton.addEventListener("click", () => {
+  window.open('https://github.com/robinfire110/NoGS#scope', '_blank');
+});
+
+//VPN Check Frequency
+vpnCheckFrequency.addEventListener("change", () => {
+  if (vpnCheckFrequency.value < 2) vpnCheckFrequency.value = 2;
+  else if (vpnCheckFrequency.value > 600) vpnCheckFrequency.value = 600;
+});
+
+vpnCheckFrequencyButton.addEventListener("click", () => {
+  window.open('https://github.com/robinfire110/NoGS#vpn-check-frequency', '_blank');
+});
 
 //Set Enabled
-checkbox.addEventListener("change", (event) => {
-  const enabled = event.target.checked;
-  chrome.storage.local.set({ enabled });
+enableButton.addEventListener("click", (event) => {
+  enabledStatus = true;
+  setStatusIndicator();
+});
+
+disableButton.addEventListener("click", (event) => {
+  enabledStatus= false;
+  
+  //Set VPN Status
+  this.lastStatus = undefined;
+  setStatusIndicator();
 });
 
 //Refill With Data when load
 window.addEventListener("DOMContentLoaded", async () => {
-  chrome.storage.local.get(["blocked", "enabled", "ipData", "scope"], function (local) {
-    const { blocked, enabled, ipData, scope} = local;
+  chrome.storage.local.get(["blocked", "enabled", "ipData", "scope", "checkFrequency", "vpnStatus"], async function (local) {
+    const { blocked, enabled, ipData, scope, checkFrequency, vpnStatus } = local;
 
     //Add to textarea
     if (Array.isArray(blocked)) {
@@ -52,20 +94,45 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     //Check enabled
-    checkbox.checked = enabled;
-
-    //Set IP
-    console.log("ran");
-    if (ipData == undefined) inputIp.value = currentIp; //If there is nothing saved, get and use current ip
-    else inputIp.value = ipData.query; //Fill the one from the data
+    enabledStatus = enabled;
+    enableButton.checked = enabled;
+    disableButton.checked = !enabled;
 
     //Set Scope
     if (scope != undefined) inputScope.value = scope;
-  });
 
-  //Get Current Ip
-  currentIp = await getCurrentIp();
+    //Set VPN Check Frequency
+    vpnCheckFrequency.value = checkFrequency;
+
+    //VPN Status
+    setStatusIndicator();
+    vpnStatusInterval = setInterval(() => this.setStatusIndicator(), checkFrequency * 999); //Slightly faster just to make sure we stay on top of it
+
+    //Set IP
+    currentIp = await getCurrentIp();
+    console.log(currentIp);
+    if (ipData == undefined) inputIp.value = currentIp; //If there is nothing saved, get and use current ip
+    else inputIp.value = ipData.query; //Fill the one from the data
+  });
 });
+
+//Set Status Indicator
+function setStatusIndicator()
+{
+  chrome.storage.local.get(["enabled", "vpnStatus"], async function (local){
+    const { enabled, vpnStatus } = local;
+    if (enabled)
+    {
+      if (this.lastStatus != vpnStatus || this.lastStatus == undefined)
+      {
+        if (vpnStatus) vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-success" title="VPN Status: On">VPN Status</span>`;
+        else vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-danger" title="VPN Status: Off">VPN Status</span>`;
+        this.lastStatus = vpnStatus;
+      }
+    }
+    else vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-secondary" title="VPN Status: Disabled">VPN Status</span>`;
+  });
+}
 
 //Get Current Ip
 async function getCurrentIp()
@@ -73,5 +140,6 @@ async function getCurrentIp()
   //Get Current IP (to use in various places)
   var res = await fetch('https://api.ipify.org?format=json');
   var data = await res.json();
+  //console.log(data);
   return data.ip;
 }
