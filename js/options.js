@@ -17,10 +17,11 @@ let currentIp;
 let frequency;
 let vpnStatusInterval;
 let enabledStatus;
+let oldIpData;
 
 //Use current ip button
 useCurrentIp.addEventListener("click", async () => {
-  inputIp.value = await currentIp;
+  inputIp.value = await currentIp.ipAddress;
 });
 
 //Save
@@ -34,11 +35,9 @@ saveButton.addEventListener("click", async () => {
   chrome.storage.local.set({ blocked });
 
   //Get ipInfo
-  var res = await fetch(`http://ip-api.com/json/${inputIp.value}?fields=status,message,countryCode,region,city,zip,org,as,asname,query`);
-  var data = await res.json();
-  const ipData = await data;
-  //console.log("ipData: ", ipData);
-
+  ipData = oldIpData;
+  if (oldIpData == undefined || oldIpData.ipAddress != inputIp.value) ipData = await getIpData(inputIp.value);
+  
   //Get Selected Scope
   const scope = inputScope.value;
 
@@ -61,7 +60,7 @@ scopeInfoButton.addEventListener("click", () => {
 
 //VPN Check Frequency
 vpnCheckFrequency.addEventListener("change", () => {
-  if (vpnCheckFrequency.value < 2) vpnCheckFrequency.value = 2;
+  if (vpnCheckFrequency.value < 1) vpnCheckFrequency.value = 1;
   else if (vpnCheckFrequency.value > 600) vpnCheckFrequency.value = 600;
 });
 
@@ -106,13 +105,20 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     //VPN Status
     setStatusIndicator();
-    vpnStatusInterval = setInterval(() => this.setStatusIndicator(), checkFrequency * 999); //Slightly faster just to make sure we stay on top of it
+    vpnStatusInterval = setInterval(() => this.setStatusIndicator(), checkFrequency * 500); //Half speed just to make sure we stay on top of it
 
     //Set IP
-    currentIp = await getCurrentIp();
-    console.log(currentIp);
-    if (ipData == undefined) inputIp.value = currentIp; //If there is nothing saved, get and use current ip
-    else inputIp.value = ipData.query; //Fill the one from the data
+    oldIpData = ipData;
+    if (ipData == undefined)
+    {
+      currentIp = await getIpData();
+      inputIp.value = currentIp.ipAddress; //If there is nothing saved, get and use current ip
+    } 
+    else
+    { 
+      inputIp.value = ipData.ipAddress; //Fill the one from the data
+      currentIp = await getIpData();
+    } 
   });
 });
 
@@ -135,11 +141,10 @@ function setStatusIndicator()
 }
 
 //Get Current Ip
-async function getCurrentIp()
+async function getIpData(ip = "")
 {
   //Get Current IP (to use in various places)
-  var res = await fetch('https://api.ipify.org?format=json');
+  var res = await fetch(`https://freeipapi.com/api/json/${ip}`);
   var data = await res.json();
-  //console.log(data);
-  return data.ip;
+  return data;
 }
