@@ -111,5 +111,5 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
 * Base Website Block Code - https://dev.to/penge/learn-the-most-useful-chrome-apis-by-creating-block-site-chrome-extension-2de8
 
 # Thanks!
- I hope this extension fits the niche for anyone who needs it. After the 1.2 version, I'm going to consider this extension finished unless some massive bug or such is discovered. If you find any such bug, or want to request a feature be added, feel free to let me know and I'll see what I can do. 
+ I hope this extension fits the niche for anyone who needs it. After the 1.3 version, I'm going to consider this extension finished unless some massive bug or such is discovered. If you find any such bug, or want to request a feature be added, feel free to let me know and I'll see what I can do. 
  Thanks!
