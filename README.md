@@ -12,9 +12,12 @@ Then, the user lists out the sites they want to be blocked by clicking on the ic
 Originally, earlier versions checked for the VPN when you went to the sites. However, it would frequently take too long to block the page. The goal was to avoid ever connecting in the first place, so this wasn't acceptable. The current implementation has it's flaws (constantly pinging and API isn't ideal), but I think it works fairly well. Though, I may reconsider if it becomes a problem.
 
 # Installation
- Download newest release and unzip the folder. Open Chrome and go to the extensions page. Click on "Load Unpacked" and locate the folder. Load it and it should be installed. To use, simply click the icon in the Chrome Extension puzzle piece icon an select "NoGS".
- 
- **Note:** You will need to open the options and enable the extension before it will work.
+1. Download newest release and unzip the folder. Open Chrome and go to the extensions page. 
+2. Ensure you have "Developer Mode" enabled by flipping the switch in the top right corner. Then click on "Load Unpacked" and locate the folder with the extension. Load it and it will appear in your list of extensions. 
+3. For the initial setup, ensure you are not connected to a VPN and then open the options menu. Do this by simply clicking the icon in the Chrome Extension menu (the puzzle peice one) an select "NoGS".
+4. The extension will automatically set your current IP as the home IP Address. Finish the setup, add the list of sites you want to be blocked (detailed instructions are in the documentation) and enable the extension by pressing "Enable" and the bottom.
+5. Click save to commit your changes and the extension should start functioning.
+6. Consider reading the documentation for deatiled information about the functions of the extension and possible solutions to problems that may arise.
  
 # Documentation
  When you click the "NoGS" icon in the extensions menu, the options menu will appear. Within it, you can adjust how the extension functions.
@@ -35,7 +38,7 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  Since the extension uses data obtained from your IP address, you can choose how percise you want the blocking to be. This is useful because depending on your internet setup (home network, laptop, school or work network etc.), you may want to adjust the parameters to get better results.
 
 ### IP Address
- The extension must have a default IP address that will be used to compare against. This could either be your IP address or the IP address when you are connected to the VPN. I would personally recommend inputting your "home" IP address, or what the standard would be without being connected to a VPN, but feel free to input whatever you'd like if you have a certain use case in mind. Remember, the extension simply checks for differences between your connected and default IPs.
+ The extension must have a default IP address that will be used to compare against. The should be your "home" IP address, or whatever the standard would be without being connected to a VPN, but feel free to input whatever you'd like if you have a certain use case in mind. Remember, the extension simply checks for differences between your connected and default IPs.
  
  By default, it will use the IP address you are connected to when you first open the extension. You can press the "Use Current IP" button to insert the current IP address. Alternatively, you can input an IP address manually. 
  
@@ -58,7 +61,7 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
 ### VPN Check Frequency
  The extension makes use of periodically checking your IP to see if you are connected to a VPN. This ensures when the time comes to check a blocked site, it will already know your connection status, making far more reliable and responsive (older versions checked for the VPN on the request and it sometimes took awhile for it to catch up).
  
- The number in this box indicates how frequently you want to check  you current IP for a VPN. The default is every 3 seconds. While this works for most setups in my testing, you may adjust it to fit your needs. For example, if you have a particularly slow connection, you can lower the frequency by inputting a higher number, though I would not recommend any higher than 30 seconds. Due to limitations with the API, the lowest possible value is 2 seconds while the maximum has been limited to 600 seconds (10 minutes).
+ The number in this box indicates how frequently you want to check  you current IP for a VPN. The default is every 3 seconds. While this works for most setups in my testing, you may adjust it to fit your needs. For example, if you have a particularly slow connection, you can lower the frequency by inputting a higher number, though I would not recommend any higher than 30 seconds. Due to limitations with the API, the lowest possible value is 1 second while the maximum has been limited to 600 seconds (10 minutes).
  
  Lastly, when the extension is disabled, the checking is automatically turn off.
  
@@ -85,8 +88,18 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  
  Once you save, the popup will automatically close, the extension will reload and your changes will go into effect.
 
+## VPN Blockers
+ Some VPNs come with features to block certain sites labeled as malware, trackers or ads (i.e. Surfshark's ClearWeb, NordVPN's Threat Protection etc). Depending on your VPN, enabling these features may result in this extension not functioning properly. This is because the VPN may block the APIs used to make this extension function. If you are having issues and you have a VPN with these capabilities, try turning off these features to see if this resolves your issue. Additionally, if you have the ability to whitelist sites, whitelisting the API site (freeipapi.com) may also resolve the issue.
+ 
+ Depending on the VPN, you may be unable to use this extension and your VPN blockers enabled at the same time. I apologize if this is the case
 
 # Versions
+## 1.3
+* Switch to FreeIpApi (from ipify and ip-api)
+	* Done to simplify program to only use 1 API instead of 2 and for better compatibility with Ad Blockers (I found this one wasn't blocked as much).
+* Fixed bug where the Blocked Screen would not load properly.
+* Made it so if VPN gets turned on and you are on a block page, that page will automatically redirect.
+
 ## 1.2
 * Icon
 * Improved UI (with Bootstrap 5) on Options and Blocked screens.
@@ -106,10 +119,10 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
 
 # Credits
 * Developer - Andy Villasmil (robinfire110)
-* APIs - https://api.ipify.org, https://ip-api.com
+* APIs - freeipapi.com
 * Made with - HTML, CSS, JavaScript, Bootstrap
 * Base Website Block Code - https://dev.to/penge/learn-the-most-useful-chrome-apis-by-creating-block-site-chrome-extension-2de8
 
 # Thanks!
- I hope this extension fits the niche for anyone who needs it. After the 1.3 version, I'm going to consider this extension finished unless some massive bug or such is discovered. If you find any such bug, or want to request a feature be added, feel free to let me know and I'll see what I can do. 
+ I hope this extension fits the niche for anyone who needs it. After the 1.2 version, I'm going to consider this extension finished unless some massive bug or such is discovered. If you find any such bug, or want to request a feature be added, feel free to let me know and I'll see what I can do. 
  Thanks!
