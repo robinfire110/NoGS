@@ -32,7 +32,9 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  
  The extension will only block new searches. So, if you have a tab open with a blocked site and you disconnect from your VPN, the site will remain open until you  refresh.
  
- Additionally, the extension **will not** block a site with embedded links to blocked sites. For example, if you have blocked `youtube.com` and you go to a site with embeded YouTube videos, that site will not be blocked and you will be able to view those embedded videos. However, if you try to go to YouTube itself, it will still be blocked. *I've decided having it this way because it would mean that part of the site would have to load in the first place and this is a pretty rare situation. However in theory, this is an option I could add fairly easily so if you want it, feel free to let me know and I can add the option.*
+ Additionally, the extension **will not** block a site with embedded links to blocked sites. For example, if you have blocked `youtube.com` and you go to a site with embeded YouTube videos, that site will not be blocked and you will be able to view those embedded videos. However, if you try to go to YouTube itself, it will still be blocked. 
+
+**Note:** I've made it this way because this is a pretty rare situation. However in theory, this is an option I could add fairly easily so if you want it, let me know and I can look into it.
  
 ## Scoping Options
  Since the extension uses data obtained from your IP address, you can choose how percise you want the blocking to be. This is useful because depending on your internet setup (home network, laptop, school or work network etc.), you may want to adjust the parameters to get better results.
@@ -51,7 +53,6 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  | Region      |**Recommended and default value**. Checks if IP matches region. This would could be States, Provinces, Territories etc. depending on the location. Offers good balance between detecting VPNs and unblocking sites accidentally.|
  | City      |Checks if IP matches City. Fairly percise, and won't trigger portable setups until you leave the City.|
  | Zip      |Checks if IP matches Zip Code. Very percise location.|
- | Organization      |Checks if IP matches Organization. Recommended for shared networks such as school or work, but can be effective in other contexts too.|
  | IP Address      |Checks if IP addresses are the same. Not recommended for most users due to dynamic IP addressing for many network setups. However, can be very effective for advanced users with a static IP address.|
 
  If you would like to check exactly what data the extension is getting, you can do so by going to the API's website. The fields the program checks for are (in order) `countryCode, region, city, zip, asname, query`. The link is below.
