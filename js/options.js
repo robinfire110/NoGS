@@ -21,18 +21,25 @@ let oldIpData;
 
 //Use current ip button
 useCurrentIp.addEventListener("click", async () => {
-  inputIp.value = await currentIp.ipAddress;
+  try {
+    let ip = await currentIp.ipAddress;
+    inputIp.value = ip;
+  } catch (error) {
+    console.log(error);
+    inputIp.placeholder = "Unable to get current IP.";
+    inputIp.value = "";
+  }
 });
 
 //Save
 saveButton.addEventListener("click", async () => {
   //Enabled
   const enabled = enabledStatus;
-  chrome.storage.local.set({ enabled });
+  chrome.storage.local.set( {enabled} );
 
   //Blocked list
   const blocked = textarea.value.split("\n").map(s => s.trim()).filter(Boolean);
-  chrome.storage.local.set({ blocked });
+  chrome.storage.local.set( {blocked} );
 
   //Get ipInfo
   ipData = oldIpData;
@@ -48,9 +55,10 @@ saveButton.addEventListener("click", async () => {
   //Set
   chrome.storage.local.set( {ipData} );
   chrome.storage.local.set( {scope} );
+  setStatusIndicator();
 
   //Reload with new settings
-  chrome.runtime.reload()
+  window.close();
 });
 
 //Scope information button
@@ -112,7 +120,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     if (ipData == undefined)
     {
       currentIp = await getIpData();
-      inputIp.value = currentIp.ipAddress; //If there is nothing saved, get and use current ip
+      if (currentIp != undefined) inputIp.value = currentIp.ipAddress; //If there is nothing saved, get and use current ip
     } 
     else
     { 
@@ -131,12 +139,24 @@ function setStatusIndicator()
     {
       if (this.lastStatus != vpnStatus || this.lastStatus == undefined)
       {
-        if (vpnStatus) vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-success" title="VPN Status: On">VPN Status</span>`;
-        else vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-danger" title="VPN Status: Off">VPN Status</span>`;
+        if (vpnStatus)
+        {
+          vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-success" title="VPN Status: On">VPN Status <i class="fa-solid fa-plug-circle-check"></i></span>`;
+          chrome.action.setIcon({ path: "/img/icon_connected.png" });
+        } 
+        else
+        {
+          vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-danger" title="VPN Status: Off">VPN Status <i class="fa-solid fa-plug-circle-xmark"></i></span>`;
+          chrome.action.setIcon({ path: "/img/icon_disconnected.png" });
+        } 
         this.lastStatus = vpnStatus;
       }
     }
-    else vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-secondary" title="VPN Status: Disabled">VPN Status</span>`;
+    else
+    {
+      vpnStatusIndicator.innerHTML = `<span class="badge rounded-pill text-bg-secondary" title="VPN Status: Disabled">VPN Status <i class="fa-solid fa-plug-circle-minus"></i></span>`;
+      chrome.action.setIcon({ path: "/img/icon_disabled.png" });
+    } 
   });
 }
 
@@ -144,7 +164,13 @@ function setStatusIndicator()
 async function getIpData(ip = "")
 {
   //Get Current IP (to use in various places)
-  var res = await fetch(`https://freeipapi.com/api/json/${ip}`);
-  var data = await res.json();
-  return data;
+  try {
+    var res = await fetch(`https://freeipapi.com/api/json/${ip}`);
+    var data = await res.json();
+    return data;
+  } catch (error) {
+    print(error);
+    return undefined;
+  }
+  
 }

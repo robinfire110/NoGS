@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(function () {
-    chrome.storage.local.get(["blocked", "enabled", "ipData", "scope", "checkFrequency", "vpnStatus"], function (local) {
+    chrome.storage.local.get(["blocked", "enabled", "ipData", "scope", "checkFrequency", "vpnStatus", "animeImageMode"], function (local) {
       //Set Array
       if (!Array.isArray(local.blocked)) chrome.storage.local.set({ blocked: [] });
 
@@ -17,17 +17,15 @@ chrome.runtime.onInstalled.addListener(function () {
 
       //Set vpnStatus
       if (local.vpnStatus == undefined) chrome.storage.local.set( { vpnStatus: false });
-    });
-});
-  
-//Set VPN Check
-let vpnCheckInterval;
-chrome.storage.local.get(["checkFrequency"], async function (local) {
-  const { checkFrequency } = local;
-  checkVPN();
-  vpnCheckInterval = setInterval(checkVPN, checkFrequency * 1000);
-});
+      setIcon(local.enabled, local.vpnStatus);
 
+      //Set Anime Image Mode
+      if (local.animeImageMode == undefined) chrome.storage.local.set( {animeImageMode: false} );
+    });
+
+    //Start VPN Check
+    checkVPN();
+});
 
 //Check before you navigate to the page
 chrome.tabs.onUpdated.addListener(async function(id, info, data) {
@@ -53,52 +51,38 @@ chrome.tabs.onUpdated.addListener(async function(id, info, data) {
   });
 });
 
-let checking = false;
 //Check for VPN
+enabled_status = false;
 async function checkVPN()
 {
-  if (!checking) 
-  {
-    checking = true;
-    chrome.storage.local.get(["blocked", "enabled", "ipData", "scope", "checkFrequency", "vpnStatus"], async function (local) {
-      const { blocked, enabled, ipData, scope, checkFrequency, vpnStatus } = local;
-      if (enabled)
-      {
-        var oldStatus = vpnStatus;
-        var s = await checkIp(ipData, scope);
-  
-        //Check and set
-        if (oldStatus != s && (s == true || s == false))
-        {
-          chrome.storage.local.set( { vpnStatus: s });
+  chrome.storage.local.get(["blocked", "enabled", "ipData", "scope", "checkFrequency", "vpnStatus"], async function (local) {
+    const { blocked, enabled, ipData, scope, checkFrequency, vpnStatus } = local;
+    enabled_status = enabled;
+    if (enabled)
+    {
+      var oldStatus = vpnStatus;
+      var s = await checkIp(ipData, scope);
 
-          //Create notification
-          /*
-          var status = "Disabled"
-          if (s == true) status = "Enabled";
-          chrome.notifications.create({
-            type: "basic",
-            iconUrl: '../icon128.png',
-            title: `VPN ${status}`,
-            message: `VPN Status is ${status}`,
-            silent: false
-          }, () => {});
-          */
-        }
-        
-        
-        checking = false;
-        console.log(vpnStatus);
+      //Check and set
+      if (s != undefined && oldStatus != s && (s == true || s == false))
+      {
+        chrome.storage.local.set( { vpnStatus: s });
+
+        //Update Icon
+        setIcon(enabled, vpnStatus);
       }
-    });
-  }
-  
+      console.log("VPN Enabled?:", vpnStatus);
+    }
+
+    //Run again after set time
+    setTimeout(checkVPN, checkFrequency * 1000);
+  });
 }
 
 //Compare IP
 async function checkIp(ipData, scope)
 {
-  console.log(ipData);
+  //console.log(ipData);
   if (ipData != undefined)
   {
     //Get IP Address
@@ -108,7 +92,6 @@ async function checkIp(ipData, scope)
       var res = await fetch('https://freeipapi.com/api/json');
       var data = await res.json();
       let check = await data;
-      //console.log(check);
 
       //Check for scope
       var result;
@@ -125,8 +108,19 @@ async function checkIp(ipData, scope)
     }
     catch (err)
     {
-      console.log("Failed to get IP Info, most likely due to attempting with no connection. Trying again on next refresh. If issue persist, check documentation for possible solutions.", err);
+      console.log(err);
+      console.log("Failed to get IP Info, most likely due to attempting with no connection or API issue. Trying again on next refresh. If issue persist, check documentation for possible solutions.", err);
+      return undefined;
     }
   }
-  
+}
+
+function setIcon(enabled, vpnStatus)
+{
+  if (!enabled) chrome.action.setIcon({ path: "/img/icon_disabled.png" });
+  else
+  {
+    if (vpnStatus) chrome.action.setIcon({ path: "/img/icon_connected.png" });
+    else chrome.action.setIcon({ path: "/img/icon_disconnected.png" });
+  }
 }
