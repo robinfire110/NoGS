@@ -33,6 +33,7 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  The extension will only block new searches. So, if you have a tab open with a blocked site and you disconnect from your VPN, the site will remain open until you refresh. On the flip side however, if you have a blocked site open and you activate a VPN, it will automatically redirect you to the site. 
  
  Additionally, the extension **will not** block a site with embedded links to blocked sites. For example, if you have blocked `youtube.com` and you go to a site with embeded YouTube videos, that site will not be blocked and you will be able to view those embedded videos. However, if you try to go to YouTube itself, it will still be blocked. In other words, the sites will only be blocked when you go to them directly.
+
  
 ## Scoping Options
  Since the extension uses data obtained from your IP address, you can choose how percise you want the blocking to be. This is useful because depending on your internet setup (home network, laptop, school or work network etc.), you may want to adjust the parameters to get better results.
