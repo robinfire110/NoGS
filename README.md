@@ -33,7 +33,6 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  The extension will only block new searches. So, if you have a tab open with a blocked site and you disconnect from your VPN, the site will remain open until you refresh. On the flip side however, if you have a blocked site open and you activate a VPN, it will automatically redirect you to the site. 
  
  Additionally, the extension **will not** block a site with embedded links to blocked sites. For example, if you have blocked `youtube.com` and you go to a site with embeded YouTube videos, that site will not be blocked and you will be able to view those embedded videos. However, if you try to go to YouTube itself, it will still be blocked. In other words, the sites will only be blocked when you go to them directly.
-
  
 ## Scoping Options
  Since the extension uses data obtained from your IP address, you can choose how percise you want the blocking to be. This is useful because depending on your internet setup (home network, laptop, school or work network etc.), you may want to adjust the parameters to get better results.
@@ -56,7 +55,7 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
 
  If you would like to check exactly what data the extension is getting, you can do so by going to the API's website. The fields the program checks for are (in order) `countryCode, regionName, cityName, zipCode, ipAddress`. The link is below.
  
- https://freeipapi.com/
+ https://freeipapi.com
  
 ### VPN Check Frequency
  The extension makes use of periodically checking your IP to see if you are connected to a VPN. This ensures when the time comes to check a blocked site, it will already know your connection status, making far more reliable and responsive (older versions checked for the VPN on the request and it sometimes took awhile for it to catch up).
@@ -86,10 +85,38 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
  
  Once you save, the popup will automatically close, the extension will reload and your changes will go into effect.
 
-## VPN Blockers
+## VPN & Ad Blockers
  Some VPNs come with features to block certain sites labeled as malware, trackers or ads (i.e. Surfshark's ClearWeb, NordVPN's Threat Protection etc). Depending on your VPN, enabling these features may result in this extension not functioning properly. This is because the VPN may block the APIs used to make this extension function. If you are having issues and you have a VPN with these capabilities, try turning off these features to see if this resolves your issue. Additionally, if you have the ability to whitelist sites, whitelisting the API site (freeipapi.com) may also resolve the issue.
  
  Depending on the VPN, you may be unable to use this extension and your VPN blockers enabled at the same time. I apologize if this is the case.
+ 
+ Similarly, some ad blockers may block the required API, so please add it to the whitelist if you are having issues.
+
+***
+ 
+ # Privacy Policy
+
+## Data
+
+The only piece of personal data the extension collects is the given "home" and your connected IP address. This is needed to compare the addresses and see if you are using a VPN. The addresses are only stored locally and do not leave your computer. By extension, I have no access to it and it is not sold to any third parties. 
+
+## Chrome API
+
+This extention takes advantage of the Chrome Storage API and Tabs API. Storage is needed to store the data set within the extension (IP, Region, VPN Check Frequency etc.). Tabs is needed to access site URLS in order to block any listed sites.
+
+## Third-Party APIs
+
+This extension uses one third-party API (https://freeipapi.com). Your "home" and connected IP addresses are sent to the API to obtain data associated with those addresses. This is done to determine whether or not a VPN is being used and part of the information return by the API may be stored to avoid constantly fetching redudant data. According to their [Privacy Policy](https://freeipapi.com/privacy), the API does not store any personal data and only stores request logs for monitoring, performance and debugging purposes. Please read their policy for more information.
+
+## Changes to the Privacy Policy
+
+This policy may be updated in the future as the extension develops, so please check back periodically.
+
+## Feedback
+
+If you have questions about this privacy policy, feel free to [file an issue](https://github.com/robinfire110/NoGS/issues) to this repository.
+
+***
 
 # Versions
 ## 1.3.1
@@ -98,6 +125,7 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
 * New Icon.
 * Added Dynamic Extension Icon.
 * Fixed issue where extension would not enable after being disabled.
+* Added Privacy Policy
 
 ## 1.3
 * Switch to FreeIpApi (from ipify and ip-api)
