@@ -18,7 +18,7 @@ Originally, earlier versions checked for the VPN when you went to the sites. How
 ## Chrome Web Store
 For most users, the best way to install is through the Chrome Web Store. 
 1. Go to the [store page](https://chromewebstore.google.com/detail/nogs-vpn-checker/ifncliboocknoeldbbmpofmjaahaechg) and click "Add to Chrome" to download the extension.
-2. Ensure you are not connected to a VPN for the intial setup and open the extension by clicking in the icon in the extension menu.
+2. Ensure you are not connected to a VPN for the initial setup and open the extension by clicking in the icon in the extension menu.
 3. Your "home" IP address will be automatically set to your current IP, but feel free to input whatever IP you want if you have a particular use in mind. Additionally, you can set it to your current IP by click "Use Current IP".
 4. Add sites to be blocked in the list.
 5. Set your scope and check frequency settings as desired or just leave them as default. More information about those settings can be found in the documentation below.
