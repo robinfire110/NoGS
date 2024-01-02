@@ -10,7 +10,7 @@
     },
     "action":{
         "default_popup": "html/index.html",
-        "default_title": "NoGS"
+        "default_title": "NoGS VPN Checker"
     },
     "icons": { 
         "16": "icon16.png",
