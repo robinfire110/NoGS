@@ -1,5 +1,7 @@
 # NoGS VPN Checker
  A Chrome Extension that ensures you are connected to a VPN before going to blocked sites. Can be used in situations when you don't want to go to sites without traffic going through a VPN. Example include using turning on a VPN before accessing a banking app or using a VPN before accessing a streaming site such as Netflix away from home.
+ 
+ Chrome Web Store - https://chromewebstore.google.com/detail/nogs-vpn-checker/ifncliboocknoeldbbmpofmjaahaechg
 
 # Why?
  A friend of mine kept forgetting to connect a VPN before going to less than shady websites (I don't ask questions, I just write programs). He asked if there was a way to block going to particular sites unless you are using a VPN, I looked around and couldn't find anything so I decided to write this Chrome Extension.
@@ -12,6 +14,19 @@ Then, the user lists out the sites they want to be blocked by clicking on the ic
 Originally, earlier versions checked for the VPN when you went to the sites. However, it would frequently take too long to block the page. The goal was to avoid ever connecting in the first place, so this wasn't acceptable. The current implementation has it's flaws (constantly pinging the API isn't ideal), but I think it works fairly well. Though, I may reconsider if it becomes a problem.
 
 # Installation
+
+## Chrome Web Store
+For most users, the best way to install is through the Chrome Web Store. 
+1. Go to the [store page](https://chromewebstore.google.com/detail/nogs-vpn-checker/ifncliboocknoeldbbmpofmjaahaechg) and click "Add to Chrome" to download the extension.
+2. Ensure you are not connected to a VPN for the intial setup and open the extension by clicking in the icon in the extension menu.
+3. Your "home" IP address will be automatically set to your current IP, but feel free to input whatever IP you want if you have a particular use in mind. Additionally, you can set it to your current IP by click "Use Current IP".
+4. Add sites to be blocked in the list.
+5. Set your scope and check frequency settings as desired or just leave them as default. More information about those settings can be found in the documentation below.
+6. Click "Enable" to enable the extension. You can disable at anytime by switching it to "Disabled"
+7. Click save to save your changes and you're good to go!
+
+## Local Install
+If you would like to install the unpacked version for use or development, follow these steps.
 1. Download newest release and unzip the folder. Open Chrome and go to the extensions page. 
 2. Ensure you have "Developer Mode" enabled by flipping the switch in the top right corner. Then click on "Load Unpacked" and locate the folder with the extension. Load it and it will appear in your list of extensions. 
 3. For the initial setup, ensure you are not connected to a VPN and then open the options menu. Do this by simply clicking the icon in the Chrome Extension menu (the puzzle peice one) an select "NoGS".
@@ -119,6 +134,11 @@ If you have questions about this privacy policy, feel free to [file an issue](ht
 ***
 
 # Versions
+## 1.3.2
+* Fixed issue where icon would not correctly update
+* Chrome Web Store!
+* Update README to include Chrome Web Store Link
+
 ## 1.3.1
 * Fixed issue where blocked page would close if you closed the settings menu.
 * Added icons to VPN Status Indicator.

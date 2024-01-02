@@ -69,7 +69,7 @@ async function checkVPN()
         chrome.storage.local.set( { vpnStatus: s });
 
         //Update Icon
-        setIcon(enabled, vpnStatus);
+        setIcon(enabled, s);
       }
       console.log("VPN Enabled?:", vpnStatus);
     }
