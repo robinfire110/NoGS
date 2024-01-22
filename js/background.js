@@ -21,10 +21,19 @@ chrome.runtime.onInstalled.addListener(function () {
 
       //Set Anime Image Mode
       if (local.animeImageMode == undefined) chrome.storage.local.set( {animeImageMode: false} );
-    });
 
-    //Start VPN Check
+      //Start Check
+      checkVPN();
+    });
+});
+
+//Start VPN Check
+chrome.runtime.onStartup.addListener(function () {
+  chrome.storage.local.get(["enabled", "vpnStatus"], async function (local) {
+    setIcon(local.enabled, local.vpnStatus);
     checkVPN();
+    console.log("yes");
+  });
 });
 
 //Check before you navigate to the page
@@ -109,7 +118,7 @@ async function checkIp(ipData, scope)
     catch (err)
     {
       console.log(err);
-      console.log("Failed to get IP Info, most likely due to attempting with no connection or API issue. Trying again on next refresh. If issue persist, check documentation for possible solutions.", err);
+      console.log("Failed to get IP Info. This is common when you are turning on a VPN, you may see this message 2-3. If you see more than that, it is most likely due to attempting with no connection or API issue. Trying again on next refresh. If issue persist, check documentation for possible solutions.", err);
       return undefined;
     }
   }

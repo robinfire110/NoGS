@@ -134,6 +134,10 @@ If you have questions about this privacy policy, feel free to [file an issue](ht
 ***
 
 # Versions
+## 1.3.3
+* Fixed issue where extension would stop checking after browser startup
+* Fixed issue where icon would not update after startup
+
 ## 1.3.2
 * Fixed issue where icon would not correctly update
 * Chrome Web Store!
